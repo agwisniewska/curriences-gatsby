@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { DataProvider } from "../components/data-provider"
 
 interface LineChartData {
   name: string;
@@ -20,13 +21,13 @@ const renderLineChart = (data: LineChartData[]) => (
 );
 
 
-export default function Chart() {
+export default function Chart(props) {
 
   // TODO: Move to data provider, create context, child should stateless component
 
-  const [curriencies, setCurriences] = useState([]);
-  const [loading, setLoading] = useState(false);
 
+  return <DataProvider>
 
-  return renderLineChart(data);
+    {renderLineChart(data)}
+  </DataProvider>
 }
