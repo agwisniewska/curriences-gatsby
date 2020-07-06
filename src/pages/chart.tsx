@@ -1,33 +1,48 @@
-import React, { useEffect, useState } from "react"
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { DataProvider } from "../components/data-provider"
+import React, { useContext } from "react"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis, Tooltip, Legend } from "recharts"
+import { IContext, Context} from "../components/data-provider"
 
-interface LineChartData {
-  name: string;
-  uv: number;
-  pv: number;
-  amt: number;
-}
+const lineStrokes = [
+  '#8883d8',
+  '#82ca9d',
+  '#6d888b',
+  '#25f486',
+  '#d1d91f',
+  '#8c0abb',
+  '#0cbbde',
+  '#ce3507',
+  '#5a2b86',
+  '#e68c8d'
+];
 
-const data = [{name: 'Page A', uv: 600, pv: 800, amt: 1200}];
+export default function Chart() {
+  const { state } = useContext<IContext>(Context);
 
-const renderLineChart = (data: LineChartData[]) => (
-  <LineChart width={600} height={300} data={data}>
-    <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-    <CartesianGrid stroke="#ccc" />
-    <XAxis dataKey="name" />
-    <YAxis />
-  </LineChart>
-);
+  const {loading, results, params} = state;
 
+  debugger;
 
-export default function Chart(props) {
+  return (
+    <div>
+      <h1> Chart </h1>
+      {loading && <span> Loading .... </span>}
 
-  // TODO: Move to data provider, create context, child should stateless component
+      {!loading && results && results.length &&  <LineChart width={800} height={500} data={results}>
+        <XAxis dataKey="date" />
+        <YAxis />
+        <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+        <Tooltip />
+        <Legend />
 
-
-  return <DataProvider>
-
-    {renderLineChart(data)}
-  </DataProvider>
+        {params.foreignCurrencies.map((foreignCurrency, index) => (
+          <Line
+            type="linear"
+            dot={false}
+            dataKey={foreignCurrency}
+            key={foreignCurrency}
+            stroke={lineStrokes[index % lineStrokes.length]}
+          />
+        ))}
+      </LineChart>}
+    </div>)
 }

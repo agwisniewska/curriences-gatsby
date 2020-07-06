@@ -1,8 +1,7 @@
-export function cancellableFetch(url) {
+export function fetchData(url) {
   const abortController = new AbortController();
 
-  return [
-    fetch(url, { signal: abortController.signal }),
-    () => abortController.abort()
-  ];
+  // TODO: Add cancel request function
+
+  return [fetch(url)];
 }
