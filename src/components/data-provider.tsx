@@ -1,17 +1,17 @@
 import React, { FunctionComponent, useEffect, useState, createContext} from "react"
 import { fetchData } from "../utils/cancelable-fetch"
-import { transformRates } from "../utils/transform-rates"
-import { currencyFetchParamsFactory } from "../utils/currency-fetch-params-factory"
+import { transformRates } from "../utils/format/transform-rates"
+import { currencyFetchParamsFactory } from "../utils/format/currency-fetch-params-factory"
 
 // TODO: Refactor interfaces
-interface ContextStatus {
+export interface ContextStatus {
   loading?: boolean;
 }
-interface ContextResults {
+export interface ContextResults {
   results?: any[];
 }
 
-interface Params {
+export interface Params {
   fromDate: Date;
   toDate: Date;
   baseCurrency: string;
@@ -24,12 +24,8 @@ interface ContextParams {
 
 type ContextState = ContextStatus & ContextResults & ContextParams;
 
-export interface IContext {
-  state: ContextState;
-  setState: Function;
-}
-
-export const Context = createContext<IContext | null>(null);
+export const DataStateContext = createContext(null);
+export const DataDispatchContext = createContext(null)
 
 export const DataProvider: FunctionComponent<{ }> = (props) => {
   const [state, setState] =
@@ -57,8 +53,10 @@ export const DataProvider: FunctionComponent<{ }> = (props) => {
 
 
   return (
-    <Context.Provider value={{state, setState}}>
-      {props.children}
-    </Context.Provider>
+    <DataStateContext.Provider value={state}>
+      <DataDispatchContext.Provider value={setState}>
+        {props.children}
+      </DataDispatchContext.Provider>
+    </DataStateContext.Provider>
   );
 };

@@ -1,4 +1,4 @@
-export function fetchData(url) {
+export function fetchData(url: string) {
   const abortController = new AbortController();
 
   // TODO: Add cancel request function

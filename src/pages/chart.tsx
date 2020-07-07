@@ -1,6 +1,6 @@
-import React, { useContext } from "react"
+import React from "react"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, Tooltip, Legend } from "recharts"
-import { IContext, Context} from "../components/data-provider"
+import { useDataState } from "../context/use-data-state"
 
 const lineStrokes = [
   '#8883d8',
@@ -16,25 +16,21 @@ const lineStrokes = [
 ];
 
 export default function Chart() {
-  const { state } = useContext<IContext>(Context);
-
-  const {loading, results, params} = state;
-
-  debugger;
+  const context = useDataState();
 
   return (
     <div>
       <h1> Chart </h1>
-      {loading && <span> Loading .... </span>}
+      {context && context.loading && <span> Loading .... </span>}
 
-      {!loading && results && results.length &&  <LineChart width={800} height={500} data={results}>
+      {context && !context.loading && context.results && context.results.length &&  <LineChart width={800} height={500} data={context.results}>
         <XAxis dataKey="date" />
         <YAxis />
         <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
         <Tooltip />
         <Legend />
 
-        {params.foreignCurrencies.map((foreignCurrency, index) => (
+        {context && context.params.foreignCurrencies.map((foreignCurrency: string, index: number) => (
           <Line
             type="linear"
             dot={false}

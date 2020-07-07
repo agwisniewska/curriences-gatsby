@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useContext, useEffect } from "react"
+import React, { ChangeEvent, useEffect } from "react"
 import Checkbox from "./checkbox"
-import { Context, IContext } from "./data-provider"
+import { useDataState } from "../context/use-data-state"
+import { useDataDispatch } from "../context/use-data-dispatch"
 
 const currencies = ['USD', 'EUR', 'PLN', 'CHF', 'GBP'];
 
 export function Controls<FunctionComponent>() {
-  const { state, setState } = useContext<IContext>(Context)
+  const state = useDataState();
+  const setState = useDataDispatch();
 
   const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setState({params: { ...state.params, baseCurrency: e.currentTarget.value }})
@@ -31,7 +33,7 @@ export function Controls<FunctionComponent>() {
         {currencies.map(currency => <option value={currency}> {currency} </option>)}
       </select>
       {currencies.map(currency =>
-        <Checkbox checked={state.params &&
+        <Checkbox checked={state && state.params &&
             state.params.foreignCurrencies.includes(currency)} id={currency} onChange={() => updateCurrencies(currency)}>
           {currency}
         </Checkbox>)
