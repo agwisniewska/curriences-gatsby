@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { DataDispatchContext } from "../components/data-provider"
+import { DataDispatchContext } from "./data-provider"
 
 export function useDataDispatch() {
   const context = useContext(DataDispatchContext);

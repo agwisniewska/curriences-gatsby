@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { DataStateContext } from "../components/data-provider"
+import { DataStateContext } from "./data-provider"
 
 export function useDataState() {
   const context = useContext(DataStateContext);

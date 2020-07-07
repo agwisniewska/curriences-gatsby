@@ -24,12 +24,17 @@ interface ContextParams {
 
 type ContextState = ContextStatus & ContextResults & ContextParams;
 
-export const DataStateContext = createContext(null);
+const initialState: ContextState = {
+  loading: false,
+  results: [],
+  params: null
+}
+export const DataStateContext = createContext(initialState);
 export const DataDispatchContext = createContext(null)
 
 export const DataProvider: FunctionComponent<{ }> = (props) => {
   const [state, setState] =
-    useState<ContextState>({ loading: true, results: [], params: null});
+    useState<ContextState>(initialState);
 
   useEffect(() => {
     if (state.params != null) {

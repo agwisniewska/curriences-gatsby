@@ -16,21 +16,21 @@ const lineStrokes = [
 ];
 
 export default function Chart() {
-  const context = useDataState();
+  const { loading, results, params } = useDataState();
 
   return (
     <div>
       <h1> Chart </h1>
-      {context && context.loading && <span> Loading .... </span>}
+      {loading && <span> Loading .... </span>}
 
-      {context && !context.loading && context.results && context.results.length &&  <LineChart width={800} height={500} data={context.results}>
+      {!loading && results && results.length &&  <LineChart width={800} height={500} data={results}>
         <XAxis dataKey="date" />
         <YAxis />
         <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
         <Tooltip />
         <Legend />
 
-        {context && context.params.foreignCurrencies.map((foreignCurrency: string, index: number) => (
+        {params.foreignCurrencies.map((foreignCurrency: string, index: number) => (
           <Line
             type="linear"
             dot={false}

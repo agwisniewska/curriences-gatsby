@@ -1,4 +1,4 @@
-import { Params } from "../../components/data-provider"
+import { Params } from "../../context/data-provider"
 
 function formatDate(date: Date) {
   return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
